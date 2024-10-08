@@ -1,13 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { Button } from '../components/ui/button';
 
 
 export default function Home() {
 
 const [movieData, setMovieData] = useState(null);
-const [error, setError] = useState(null);
+const [error] = useState(null);
 
 
   const fetchMovie = async () => {
