@@ -1,0 +1,52 @@
+// schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model User {
+  id            String       @default(cuid()) @id  // primary key
+  name          String
+  email         String       @unique
+  createdAt     DateTime     @default(now()) @map(name: "created_at")
+  updatedAt     DateTime     @updatedAt @map(name: "updated_at")
+
+  lists Lists[]  // Optional to avoid database-level enforcement issues
+  
+  @@map(name: "users")
+}
+
+model Lists {
+  id            String      @default(cuid()) @id // primary key
+  name          String
+  movies        Movie[]
+  createdAt     DateTime     @default(now()) @map(name: "created_at")
+  updatedAt     DateTime     @updatedAt @map(name: "updated_at")
+
+  user          User        @relation(fields: [user_id], references: [id]) // user User isnt added to db schema, its just to generate db types
+  user_id       String      // foreign key to User ... this is actually added to schema
+
+  @@map(name: "lists")
+}
+
+model Movie {
+  id            String      @default(cuid()) @id // Primary Key
+  tmbd_id       Int         @unique
+  title         String
+  release_date  String?
+  poster_path   String?
+  overview      String?
+  genre_ids     String[]
+  watched       Boolean?    @default(false)
+  user_rating   Int?
+
+  list  Lists[]
+
+  @@map(name: "movie")
+}
