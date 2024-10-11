@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
+import { Loader2, House, Film, Calendar, Star, Settings, Menu, Search } from 'lucide-react';
+
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -19,6 +24,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
+  
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -26,9 +32,48 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}> 
-      <nav>
-        <h1>Flick List</h1>        
-      </nav>
+
+      {/* Header */}
+      <header className="bg-white shadow-sm">
+          <div className="flex items-center justify-between p-4">
+            <Button variant="ghost" size="icon" className="lg:hidden">
+              <Menu className="h-6 w-6" />
+            </Button>
+            <div className="flex-1 px-4">
+              <form className="max-w-md mx-auto">
+                <div className="relative">
+                  <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input placeholder="Search movies" className="pl-8" />
+                </div>
+              </form>
+            </div>
+          </div>
+        </header>
+
+      <aside className={`bg-white w-64 h-screen flex-shrink-0 block lg:block`}>
+        <div className="p-4">
+          <h2 className="text-2xl font-bold mb-4">Flick List</h2>
+
+          {/* sidebar for desktop */}
+          <nav>
+            <Button variant="ghost" className="w-full justify-start mb-2">
+              <House className='mr-2 h-4 w-4'/> Home
+            </Button>
+            <Button variant="ghost" className="w-full justify-start mb-2">
+              <Film className="mr-2 h-4 w-4" /> Movies
+            </Button>
+            <Button variant="ghost" className="w-full justify-start mb-2">
+              <Calendar className="mr-2 h-4 w-4" /> Coming Soon
+            </Button>
+            <Button variant="ghost" className="w-full justify-start mb-2">
+              <Star className="mr-2 h-4 w-4" /> Top Rated
+            </Button>
+            <Button variant="ghost" className="w-full justify-start">
+              <Settings className="mr-2 h-4 w-4" /> Settings
+            </Button>
+          </nav>
+        </div>
+      </aside>
         {children}
       </body>
     </html>
