@@ -1,24 +1,21 @@
-import { NextResponse } from "next/server";
-
-
-export async function GET() {
-
-    const res = await fetch('https://api.themoviedb.org/3/search/movie?query=Deadpool&include_adult=false&language=en-US&page=1', {
+export async function fetchMovie(query: string) {
+    const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`, {
         method: 'GET',
         headers: {
             accept: 'application/json',
             Authorization: `Bearer ${process.env.TMDB_API_BEARER_TOKEN}`
         }
     });
-  
+
+    // Check if the response was successful
     if (!res.ok) {
-        return NextResponse.json({
-            error: "Could not fetch data at this time!",
-        }, { status: 500 });
+        throw new Error('Failed to fetch movies');
     }
-  
-    const data = await res.json(); // retrieve all data from API
-    
+
+    // Parse the JSON response
+    const data = await res.json();
+
+    // Map through the results and format the poster path if available
     const final = data.results.map((movie: any) => {
         return {
             ...movie,
@@ -28,5 +25,6 @@ export async function GET() {
         };
     });
 
-    return NextResponse.json({final})
-  } 
+    // Return the final formatted data
+    return final;
+}
