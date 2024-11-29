@@ -10,27 +10,34 @@ import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { ScrollArea } from '../components/ui/scroll-area';
-import { fetchMovie } from '../lib/movieApi';
 import SearchBar from '@/components/custom/SearchBar/SearchBar';
 
 export default function Home() {
   const [movieData, setMovieData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+  // const [searchTerm, setSearchTerm] = useState<string>("");
   
-  const handleSearch = async (query: string) => {
+  const handleSearch = async (searchTerm: string) => {
     try {
-      const movies = await fetchMovie(query);
-      setMovieData(movies);
-      setError(null); // Clear any existing errors on success
-    } catch (err) {
-      console.error("Error in fetchMovie:", err);
-      setError("Could not fetch movies at this time!");
+      // setSearchTerm(searchTerm);
+      const res = await fetch(`api/movies/search?query=${searchTerm}`);
+      
+      if (!res.ok) {
+        console.log("Response not !ok");
+      }
+
+      const data = await res.json();
+
+      setMovieData(data.final);
+
+    } catch (error) {
+      console.log("Error from handleSearch():", error);
     }
   };
 
   useEffect(() => {
-    console.log(movieData);
+    console.log("useEffect movie data: ", movieData);
   }, [movieData]);
 
   return (

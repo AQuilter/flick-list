@@ -1,4 +1,15 @@
-export async function fetchMovie(query: string) {
+import { NextResponse } from "next/server";
+
+
+export async function GET(req: Request) {
+    const { searchParams } = new URL(req.url); // Extract query params from request
+    const query = searchParams.get('query');
+
+    if (!query) {
+        return NextResponse.json({error: "Query param not given"}, { status: 400 });
+    }
+
+
     const res = await fetch(`https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`, {
         method: 'GET',
         headers: {
@@ -6,16 +17,15 @@ export async function fetchMovie(query: string) {
             Authorization: `Bearer ${process.env.TMDB_API_BEARER_TOKEN}`
         }
     });
-
-    // Check if the response was successful
+  
     if (!res.ok) {
-        throw new Error('Failed to fetch movies');
+        return NextResponse.json({
+            error: "Could not fetch data at this time!",
+        }, { status: res.status });
     }
-
-    // Parse the JSON response
-    const data = await res.json();
-
-    // Map through the results and format the poster path if available
+  
+    let data = await res.json(); // retrieve all data from API
+    
     const final = data.results.map((movie: any) => {
         return {
             ...movie,
@@ -25,6 +35,5 @@ export async function fetchMovie(query: string) {
         };
     });
 
-    // Return the final formatted data
-    return final;
-}
+    return NextResponse.json({final})
+  } 
