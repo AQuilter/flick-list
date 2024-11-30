@@ -2,20 +2,16 @@
 
 // react
 import { useState, useEffect } from 'react';
-import { Loader2, House, Film, Calendar, Star, Settings, Menu, Search } from 'lucide-react';
-
+import {PrismaClient, Movie} from '@prisma/client';
 // shadcn
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '../components/ui/card';
-import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../components/ui/card';
 import { ScrollArea } from '../components/ui/scroll-area';
 import SearchBar from '@/components/custom/SearchBar/SearchBar';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   const [movieData, setMovieData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
   // const [searchTerm, setSearchTerm] = useState<string>("");
   
   const handleSearch = async (searchTerm: string) => {
@@ -51,10 +47,10 @@ export default function Home() {
         {/* Movie grid */}
         <ScrollArea className="flex-1 p-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {movieData.map((movie: any) => (
+            {movieData.map((movie: Movie) => (
               <Card key={movie.id} className="overflow-hidden">
                 <img
-                  src={movie.poster_path}
+                  src={movie.poster_path || undefined} 
                   alt={movie.title}
                   className="w-full h-48 object-cover"
                 />
