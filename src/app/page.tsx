@@ -4,7 +4,6 @@
 import { useState, useEffect } from 'react';
 import { Movie } from '@prisma/client';
 // shadcn
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../components/ui/card';
 import { ScrollArea } from '../components/ui/scroll-area';
 import SearchBar from '@/components/custom/SearchBar/SearchBar';
 import MovieCard from '@/components/custom/MovieCard/MovieCard';

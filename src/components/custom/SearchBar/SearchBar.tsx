@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { Input } from '@/components/ui/input';
-import { Form, FormField } from '@/components/ui/form';
 
 interface SearchBarProps {
     query?: string;
