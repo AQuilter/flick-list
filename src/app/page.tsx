@@ -2,20 +2,16 @@
 
 // react
 import { useState, useEffect } from 'react';
-import { Loader2, House, Film, Calendar, Star, Settings, Menu, Search } from 'lucide-react';
-
+import { Movie } from '@prisma/client';
 // shadcn
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '../components/ui/card';
-import { Avatar, AvatarImage, AvatarFallback } from '../components/ui/avatar';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../components/ui/card';
 import { ScrollArea } from '../components/ui/scroll-area';
 import SearchBar from '@/components/custom/SearchBar/SearchBar';
+import MovieCard from '@/components/custom/MovieCard/MovieCard';
 
 export default function Home() {
   const [movieData, setMovieData] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
   // const [searchTerm, setSearchTerm] = useState<string>("");
   
   const handleSearch = async (searchTerm: string) => {
@@ -51,23 +47,8 @@ export default function Home() {
         {/* Movie grid */}
         <ScrollArea className="flex-1 p-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {movieData.map((movie: any) => (
-              <Card key={movie.id} className="overflow-hidden">
-                <img
-                  src={movie.poster_path}
-                  alt={movie.title}
-                  className="w-full h-48 object-cover"
-                />
-                <CardHeader className="p-4">
-                  <CardTitle className="text-lg">{movie.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-4 pt-0">
-                  <p className="text-sm text-muted-foreground">Year: {movie.release_date?.split('-')[0] || 'N/A'}</p>
-                </CardContent>
-                <CardFooter className="p-4 pt-0">
-                  <p className="text-sm font-semibold">Rating: {movie.vote_average || 'N/A'}/10</p>
-                </CardFooter>
-              </Card>
+            {movieData.map((movie: Movie) => (
+              <MovieCard key={movie.id} movie={movie}/>
             ))}
           </div>
         </ScrollArea>

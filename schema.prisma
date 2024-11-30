@@ -45,6 +45,7 @@ model Movie {
   genre_ids     String[]
   watched       Boolean?    @default(false)
   user_rating   Int?
+  vote_average  Int?
 
   list  Lists[]
 
