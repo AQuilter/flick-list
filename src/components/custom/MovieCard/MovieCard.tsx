@@ -1,14 +1,21 @@
 // models
 import { Movie } from ".prisma/client";
+import { useState } from 'react';
 
 // shadcn
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { isNull } from "util";
 
 interface MovieCardArgs {
   movie: Movie;
 }
 
 export default function MovieCard({ movie }: MovieCardArgs) {
+    
+    const roundNumber = (number: number | null) : string => {
+        return number == null ? "N/A" : number.toFixed(1)
+    }
+
   return (
     <>
       <Card key={movie.id} className="overflow-hidden">
@@ -27,7 +34,7 @@ export default function MovieCard({ movie }: MovieCardArgs) {
         </CardContent>
         <CardFooter className="p-4 pt-0">
           <p className="text-sm font-semibold">
-            Rating: {movie.vote_average || "N/A"}/10
+            Rating: {roundNumber(movie.vote_average)}/10
           </p>
         </CardFooter>
       </Card>
