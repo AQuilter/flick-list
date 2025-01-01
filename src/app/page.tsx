@@ -49,14 +49,17 @@ export default function Home() {
 				<div className="flex-row overflow-hidden ">
 
 					{/* collapse trigger and search bar */}
-					<div className="flex flex-1 items-center justify-center gap-6 py-2">
-						<div className="">
+					<div className="flex items-center justify-between py-2">
+						<div className="pr-6">
 							<SidebarTrigger />
 						</div>
-						<div className="w-1/2">
+						<div className="flex flex-1 justify-center">
+							<div className="w-1/3">
 							<SearchBar onSearch={handleSearch} />
+							</div>
 						</div>
 					</div>
+
 
 					{/* main content */}
 					<div className="flex-1 h-screen w-screen flex flex-row overflow-hidden bg-red-400">
