@@ -50,12 +50,12 @@ export default function Home() {
 
 					{/* collapse trigger and search bar */}
 					<div className="flex items-center justify-between py-2">
-						<div className="pr-6">
+						<div>
 							<SidebarTrigger />
 						</div>
 						<div className="flex flex-1 justify-center">
-							<div className="w-1/3">
-							<SearchBar onSearch={handleSearch} />
+							<div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-1/3">
+								<SearchBar onSearch={handleSearch} />
 							</div>
 						</div>
 					</div>
